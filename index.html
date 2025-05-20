@@ -100,7 +100,7 @@
         <div class="centered">
             <h1>Werewolf Gaming.co Clone Wars Roleplay</h1>
             <p>Map: <span id="map-name">rp_werewolf_rishimoon_v2</span></p>
-            <p class="status-text" id="status">Waiting for server...</p>
+            <p class="status-text" id="status">Retrieving server info...</p>
             <p class="status-text" id="file-name">-</p>
 
             <div class="progress-container">
@@ -117,12 +117,10 @@
                 slides[current].classList.add('active');
             }, 5000);
 
-            let totalFiles = 1;
-            let neededFiles = 1;
-
-            function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, language) {
-                document.getElementById("map-name").textContent = mapname;
-            }
+            let totalFiles = 0;
+            let neededFiles = 0;
+            let statusSteps = [];
+            let progress = 0;
 
             function SetFilesTotal(total) {
                 totalFiles = total;
@@ -134,9 +132,12 @@
             }
 
             function updateProgress() {
-                let percent = ((totalFiles - neededFiles) / totalFiles) * 100;
-                percent = Math.max(0, Math.min(100, percent));
-                document.getElementById("progress-bar").style.width = percent + "%";
+                let statusProgress = Math.min(statusSteps.length / 10, 1);
+                let downloadProgress = totalFiles > 0 ? (1 - (neededFiles / totalFiles)) : 0;
+
+                progress = (statusProgress * 0.5 + downloadProgress * 0.5) * 100;
+
+                document.getElementById("progress-bar").style.width = progress + "%";
             }
 
             function DownloadingFile(fileName) {
@@ -145,6 +146,12 @@
 
             function SetStatusChanged(status) {
                 document.getElementById("status").textContent = status;
+
+                if (!statusSteps.includes(status)) {
+                    statusSteps.push(status);
+                }
+
+                updateProgress();
             }
         </script>
     </body>
