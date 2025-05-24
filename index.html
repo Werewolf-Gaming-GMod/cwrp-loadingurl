@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Werewolf Gaming.co Clone Wars Roleplay</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <style>
             * {
                 margin: 0; padding: 0; box-sizing: border-box;
@@ -43,7 +46,7 @@
             .centered {
                 position: absolute;
                 width: 100%;
-                height: 25%;
+                height: 100%;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
@@ -53,7 +56,9 @@
 
             h1 {
                 font-size: 2em;
+                margin-top: 4%;
                 margin-bottom: 0.5em;
+                font-size: 400%;
             }
 
             p {
@@ -62,18 +67,19 @@
 
             .progress-container {
                 width: 60%;
-                height: 10%;
-                background-color: #333;
-                margin: 20px auto;
-                border-radius: 8px;
+                height: 4%;
+                background-color: rgb(51, 51, 51);
+                opacity: 0.8;
+                margin: 34% auto;
+                border-radius: 6px;
                 overflow: hidden;
             }
 
             .progress-bar {
                 height: 100%;
                 width: 0%;
-                background: linear-gradient(90deg, #00f2ff, #00d9ff);
-                transition: width 0.3s ease;
+                background: linear-gradient(90deg, #696969, #fcfcfc);
+                transition: width 0.5s ease;
             }
 
             .status-text {
@@ -103,7 +109,6 @@
             <h1>Werewolf Gaming.co Clone Wars Roleplay</h1>
             <p>Map: <span id="map-name">rp_werewolf_rishimoon_v2</span></p>
             <p class="status-text" id="status">Retrieving server info...</p>
-            <p class="status-text" id="file-name">-</p>
 
             <div class="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
@@ -126,6 +131,7 @@
 
             function SetFilesTotal(total) {
                 totalFiles = total;
+                neededFiles = total;
             }
 
             function SetFilesNeeded(needed) {
@@ -143,7 +149,7 @@
             }
 
             function DownloadingFile(fileName) {
-                document.getElementById("file-name").textContent = "Downloading: " + fileName;
+                document.getElementById("status").textContent = "Downloading: " + fileName;
             }
 
             function SetStatusChanged(status) {
