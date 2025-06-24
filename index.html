@@ -107,7 +107,7 @@
 
         <div class="centered">
             <h1>Werewolf Gaming.co Clone Wars Roleplay</h1>
-            <p>Map: <span id="map-name">rp_werewolf_rishimoon_v2</span></p>
+            <p>Map: <span id="map-name">-</span></p>
             <p class="status-text" id="status">Retrieving server info...</p>
 
             <div class="progress-container">
@@ -124,42 +124,52 @@
                 slides[current].classList.add('active');
             }, 5000);
 
-            let totalFiles = 0;
-            let neededFiles = 0;
-            let statusSteps = [];
-            let progress = 0;
-
-            function SetFilesTotal(total) {
-                totalFiles = total;
-                neededFiles = total;
+            function progress(percent) {
+                document.getElementById("progress-bar").style.width = percent + "%"
             }
 
-            function SetFilesNeeded(needed) {
-                neededFiles = needed;
-                updateProgress();
+            function GameDetails(_, _, mapname, _, _, _, _, _) {
+                document.getElementById("map-name").textContent = mapname;
+                progress(1);
             }
 
-            function updateProgress() {
-                let statusProgress = Math.min(statusSteps.length / 10, 1);
-                let downloadProgress = totalFiles > 0 ? (1 - (neededFiles / totalFiles)) : 0;
-
-                progress = (statusProgress * 0.5 + downloadProgress * 0.5) * 100;
-
-                document.getElementById("progress-bar").style.width = progress + "%";
-            }
-
-            function DownloadingFile(fileName) {
-                document.getElementById("status").textContent = "Downloading: " + fileName;
-            }
+            let workshopLoaded = 0;
+            const totalWorkshop = 21;
+            let luaLoaded = 0;
+            const totalLua = 2150;
 
             function SetStatusChanged(status) {
                 document.getElementById("status").textContent = status;
 
-                if (!statusSteps.includes(status)) {
-                    statusSteps.push(status);
+                if (status == "Mounting Addons") {
+                    progress(70);
+                } else if (status == "Workshop Complete") {
+                    progress(71.6);
+                } else if (status == "Sending client info...") {
+                    progress(73.3);
+                } else if (status == "Client info sent!") {
+                    progress(75);
+                } else if (status == "Received all Lua files we needed!") {
+                    progress(94);
+                } else if (status == "Starting Lua...") {
+                    progress(95);
+                } else if (status == "Lua Started!") {
+                    progress(97.5);
+                } else if (status == "Fully Connected!") {
+                    progress(100);
+                } else if (status.includes(" - Loading")) {
+                    workshopLoaded++;
+                    const start = 1;
+                    const end = 70;
+                    const addonProgress = start + ((end - start) * (workshopLoaded / totalWorkshop));
+                    progress(addonProgress);
+                } else if (status.endsWith(" Lua files")) {
+                    luaLoaded++;
+                    const start = 75;
+                    const end = 94;
+                    const luaProgress = start + ((end - start) * (luaLoaded / totalLua));
+                    progress(luaProgress);
                 }
-
-                updateProgress();
             }
         </script>
     </body>
